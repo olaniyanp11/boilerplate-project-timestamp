@@ -38,6 +38,9 @@ app.get("/api/:date", (req, res) => {
     reqdate = new Date(reqdate);
     finaldate.unix = reqdate.getTime();
     finaldate.utc = reqdate.toUTCString();
+    if (finaldate.utc === "Invalid Date") {
+    finaldate = { error: "Invalid Date" };
+    } 
   } catch (error) {
     finaldate = { error: "Invalid Date" };
   }

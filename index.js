@@ -1,6 +1,9 @@
 // index.js
 // where your node app starts
-require("dotenv").config();
+// if (process.env.NODE_ENV === "development") {
+// require("dotenv").config();
+  
+// }
 let check = require("./auth/check");
 
 // init project

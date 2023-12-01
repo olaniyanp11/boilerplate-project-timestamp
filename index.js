@@ -31,23 +31,23 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date", (req, res) => {
   let reqdate = req.params.date;
   let finaldate = { unix: null, utc: null };
-  if (reqdate === "") {
-    reqdate = new Date();
+  if (reqdate.length === 13) {
+    reqdate = Number(reqdate);
+  }
+  try {
+    reqdate = new Date(reqdate);
     finaldate.unix = reqdate.getTime();
     finaldate.utc = reqdate.toUTCString();
-  } else {
-    if (reqdate.length === 13) {
-      reqdate = Number(reqdate);
-    }
-    try {
-      reqdate = new Date(reqdate);
-      finaldate.unix = reqdate.getTime();
-      finaldate.utc = reqdate.toUTCString();
-    } catch (error) {
-      console.error({ error: "Invalid Date" });
-    }
+  } catch (error) {
+    finaldate = { error: "Invalid Date" };
   }
-
+  res.json(finaldate);
+});
+app.get("/api", (req, res) => {
+  let finaldate = { unix: null, utc: null };
+  reqdate = new Date();
+  finaldate.unix = reqdate.getTime();
+  finaldate.utc = reqdate.toUTCString();
   res.json(finaldate);
 });
 

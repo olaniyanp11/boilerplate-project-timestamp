@@ -31,14 +31,10 @@ app.get("/api/:date", (req, res) => {
 
   if (reqdate.length === 13) {
     reqdate = Number(reqdate);
-    reqdate = new Date(reqdate);
-    finaldate.unix = reqdate.getTime();
-    finaldate.utc = reqdate.toUTCString();
-  } else {
-    reqdate = new Date(reqdate);
-    finaldate.unix = reqdate.getTime();
-    finaldate.utc = reqdate.toUTCString();
   }
+  reqdate = new Date(reqdate);
+  finaldate.unix = reqdate.getTime();
+  finaldate.utc = reqdate.toUTCString();
   res.json(finaldate);
 });
 

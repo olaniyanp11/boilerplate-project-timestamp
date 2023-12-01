@@ -2,7 +2,7 @@
 // where your node app starts
 // if (process.env.NODE_ENV === "development") {
 // require("dotenv").config();
-  
+
 // }
 let check = require("./auth/check");
 
@@ -31,13 +31,23 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date", (req, res) => {
   let reqdate = req.params.date;
   let finaldate = { unix: null, utc: null };
-
-  if (reqdate.length === 13) {
-    reqdate = Number(reqdate);
+  if (reqdate === "") {
+    reqdate = new Date();
+    finaldate.unix = reqdate.getTime();
+    finaldate.utc = reqdate.toUTCString();
+  } else {
+    if (reqdate.length === 13) {
+      reqdate = Number(reqdate);
+    }
+    try {
+      reqdate = new Date(reqdate);
+      finaldate.unix = reqdate.getTime();
+      finaldate.utc = reqdate.toUTCString();
+    } catch (error) {
+      console.error({ error: "Invalid Date" });
+    }
   }
-  reqdate = new Date(reqdate);
-  finaldate.unix = reqdate.getTime();
-  finaldate.utc = reqdate.toUTCString();
+
   res.json(finaldate);
 });
 
